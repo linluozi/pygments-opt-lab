@@ -1,0 +1,1 @@
+{"impl": "opt", "scale": "file-difflib", "i": 4, "seconds": 0.05670240335166454, "bytes": 83308, "tokens": 11332, "files": ["difflib.py"]}

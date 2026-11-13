@@ -1,0 +1,319 @@
+{
+ "impl": "base",
+ "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+ "platform": "Linux-6.8.0-124-generic-x86_64-with-glibc2.39",
+ "seed": 0,
+ "randomness": "none: Pygments lexing is deterministic",
+ "warmup": 3,
+ "repeats": 5,
+ "command": "benchmark/bench.py --base-root /tmp/base --opt-root /tmp/opt",
+ "cpu": "AMD EPYC 7K62 48-Core Processor",
+ "memory_kb": 3812564,
+ "corpus_total_bytes": 2021262,
+ "corpus": [
+  {
+   "name": "_pydecimal.py",
+   "bytes": 229220
+  },
+  {
+   "name": "turtle.py",
+   "bytes": 146361
+  },
+  {
+   "name": "inspect.py",
+   "bytes": 125420
+  },
+  {
+   "name": "typing.py",
+   "bytes": 117428
+  },
+  {
+   "name": "tarfile.py",
+   "bytes": 113907
+  },
+  {
+   "name": "pydoc.py",
+   "bytes": 113090
+  },
+  {
+   "name": "doctest.py",
+   "bytes": 106479
+  },
+  {
+   "name": "argparse.py",
+   "bytes": 101750
+  },
+  {
+   "name": "pickletools.py",
+   "bytes": 93861
+  },
+  {
+   "name": "_pyio.py",
+   "bytes": 93593
+  },
+  {
+   "name": "_pydatetime.py",
+   "bytes": 92097
+  },
+  {
+   "name": "subprocess.py",
+   "bytes": 88725
+  },
+  {
+   "name": "difflib.py",
+   "bytes": 83308
+  },
+  {
+   "name": "enum.py",
+   "bytes": 81636
+  },
+  {
+   "name": "mailbox.py",
+   "bytes": 78911
+  },
+  {
+   "name": "locale.py",
+   "bytes": 78562
+  },
+  {
+   "name": "ipaddress.py",
+   "bytes": 78294
+  },
+  {
+   "name": "pdb.py",
+   "bytes": 69459
+  },
+  {
+   "name": "pickle.py",
+   "bytes": 64901
+  },
+  {
+   "name": "ast.py",
+   "bytes": 64260
+  }
+ ],
+ "scales": {
+  "small": {
+   "median": 0.29355830419808626,
+   "p25": 0.2843922870233655,
+   "p75": 0.3021939476020634,
+   "runs": 5,
+   "rsd": 0.03088620772821435,
+   "bytes": 229220,
+   "files": [
+    "_pydecimal.py"
+   ]
+  },
+  "medium": {
+   "median": 0.8408608101308346,
+   "p25": 0.8339714696630836,
+   "p75": 0.8731950302608311,
+   "runs": 5,
+   "rsd": 0.02828440658033008,
+   "bytes": 618429,
+   "files": [
+    "_pydecimal.py",
+    "turtle.py",
+    "inspect.py",
+    "typing.py"
+   ]
+  },
+  "large": {
+   "median": 2.9822675408795476,
+   "p25": 2.959601031150669,
+   "p75": 3.0895354789681733,
+   "runs": 5,
+   "rsd": 0.027086321976112764,
+   "bytes": 2021262,
+   "files": [
+    "_pydecimal.py",
+    "turtle.py",
+    "inspect.py",
+    "typing.py",
+    "tarfile.py",
+    "pydoc.py",
+    "doctest.py",
+    "argparse.py",
+    "pickletools.py",
+    "_pyio.py",
+    "_pydatetime.py",
+    "subprocess.py",
+    "difflib.py",
+    "enum.py",
+    "mailbox.py",
+    "locale.py",
+    "ipaddress.py",
+    "pdb.py",
+    "pickle.py",
+    "ast.py"
+   ]
+  }
+ },
+ "files": {
+  "_pydecimal": {
+   "median": 0.28185645397752523,
+   "p25": 0.2705239770002663,
+   "p75": 0.28590723499655724,
+   "runs": 5,
+   "rsd": 0.026006362853939865,
+   "bytes": 229220
+  },
+  "turtle": {
+   "median": 0.19951864425092936,
+   "p25": 0.193482406437397,
+   "p75": 0.20550554571673274,
+   "runs": 5,
+   "rsd": 0.031968600280186936,
+   "bytes": 146361
+  },
+  "inspect": {
+   "median": 0.18760150857269764,
+   "p25": 0.17323438497260213,
+   "p75": 0.1888560988008976,
+   "runs": 5,
+   "rsd": 0.04331345302736699,
+   "bytes": 125420
+  },
+  "typing": {
+   "median": 0.15169138740748167,
+   "p25": 0.1514464975334704,
+   "p75": 0.1559944381006062,
+   "runs": 5,
+   "rsd": 0.021569148622618328,
+   "bytes": 117428
+  },
+  "tarfile": {
+   "median": 0.17266829498112202,
+   "p25": 0.17173372767865658,
+   "p75": 0.1762346955947578,
+   "runs": 5,
+   "rsd": 0.012075414981280412,
+   "bytes": 113907
+  },
+  "pydoc": {
+   "median": 0.20863856934010983,
+   "p25": 0.19967460352927446,
+   "p75": 0.21162148844450712,
+   "runs": 5,
+   "rsd": 0.027523226075833705,
+   "bytes": 113090
+  },
+  "doctest": {
+   "median": 0.1063823951408267,
+   "p25": 0.10604363773018122,
+   "p75": 0.10853537637740374,
+   "runs": 5,
+   "rsd": 0.016456878995497738,
+   "bytes": 106479
+  },
+  "argparse": {
+   "median": 0.14211176801472902,
+   "p25": 0.14155930373817682,
+   "p75": 0.1449740887619555,
+   "runs": 5,
+   "rsd": 0.013350697786857007,
+   "bytes": 101750
+  },
+  "pickletools": {
+   "median": 0.08735367935150862,
+   "p25": 0.08709519309923053,
+   "p75": 0.08873612340539694,
+   "runs": 5,
+   "rsd": 0.012821449481611335,
+   "bytes": 93861
+  },
+  "_pyio": {
+   "median": 0.13014385756105185,
+   "p25": 0.1264737518504262,
+   "p75": 0.13037308817729354,
+   "runs": 5,
+   "rsd": 0.01509399829326949,
+   "bytes": 93593
+  },
+  "_pydatetime": {
+   "median": 0.1449339734390378,
+   "p25": 0.1442371178418398,
+   "p75": 0.1470052171498537,
+   "runs": 5,
+   "rsd": 0.010154029193152338,
+   "bytes": 92097
+  },
+  "subprocess": {
+   "median": 0.10884277988225222,
+   "p25": 0.10845735901966691,
+   "p75": 0.11062019690871239,
+   "runs": 5,
+   "rsd": 0.01201982895241627,
+   "bytes": 88725
+  },
+  "difflib": {
+   "median": 0.08232196047902107,
+   "p25": 0.08152369782328606,
+   "p75": 0.08391237910836935,
+   "runs": 5,
+   "rsd": 0.015585308083239545,
+   "bytes": 83308
+  },
+  "enum": {
+   "median": 0.11917479336261749,
+   "p25": 0.11873804917559028,
+   "p75": 0.12429987965151668,
+   "runs": 5,
+   "rsd": 0.025349624735139124,
+   "bytes": 81636
+  },
+  "mailbox": {
+   "median": 0.13779579289257526,
+   "p25": 0.13765547424554825,
+   "p75": 0.1392299197614193,
+   "runs": 5,
+   "rsd": 0.008460722152028843,
+   "bytes": 78911
+  },
+  "locale": {
+   "median": 0.08207360189408064,
+   "p25": 0.08166280016303062,
+   "p75": 0.08419410418719053,
+   "runs": 5,
+   "rsd": 0.015916837513629892,
+   "bytes": 78562
+  },
+  "ipaddress": {
+   "median": 0.088100865483284,
+   "p25": 0.08401886560022831,
+   "p75": 0.08872719202190638,
+   "runs": 5,
+   "rsd": 0.025696808362223725,
+   "bytes": 78294
+  },
+  "pdb": {
+   "median": 0.10042368154972792,
+   "p25": 0.10018123080953956,
+   "p75": 0.1024165078997612,
+   "runs": 5,
+   "rsd": 0.012161658993063908,
+   "bytes": 69459
+  },
+  "pickle": {
+   "median": 0.11285409145057201,
+   "p25": 0.1126347635872662,
+   "p75": 0.11451208824291825,
+   "runs": 5,
+   "rsd": 0.008410200216901715,
+   "bytes": 64901
+  },
+  "ast": {
+   "median": 0.12099048774689436,
+   "p25": 0.1204231521114707,
+   "p75": 0.12281054444611073,
+   "runs": 5,
+   "rsd": 0.011593705902098728,
+   "bytes": 64260
+  }
+ },
+ "upstream_tests": {
+  "command": "python -m pytest tests --ignore=tests/contrast -q",
+  "result": "5329 passed, 16 skipped, 3 warnings in 89.35s",
+  "note": "tests/contrast needs optional wcag_contrast_ratio; unrelated to lexer.py"
+ }
+}

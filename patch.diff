@@ -1,0 +1,128 @@
+diff --git a/pygments/lexer.py b/pygments/lexer.py
+index ba60ad4..3dd72e9 100644
+--- a/pygments/lexer.py
++++ b/pygments/lexer.py
+@@ -33,6 +33,90 @@ _encoding_map = [(b'\xef\xbb\xbf', 'utf-8'),
+ 
+ _default_analyse = staticmethod(lambda x: 0.0)
+ 
++try:  # Python 3.11+
++    import re._constants as _sre_constants
++    import re._parser as _sre_parse
++except ImportError:  # pragma: no cover - Python < 3.11
++    try:
++        import sre_constants as _sre_constants
++        import sre_parse as _sre_parse
++    except ImportError:
++        _sre_parse = None
++
++
++def _regex_first_chars(pattern, flags):
++    """Conservative ``(first, nullable)`` analysis of a regex.
++
++    ``first`` is the set of code points a match can consume first, or ``None``
++    if no complete set can be proven (then the rule must be tried for every
++    character).  ``nullable`` is true if the pattern may match the empty
++    string, in which case the following rules must still be considered.
++    """
++    if _sre_parse is None or flags & re.IGNORECASE:
++        return None, True
++    # Inline flags can enable IGNORECASE for part of the pattern; analysing
++    # them correctly is not worth it, so such rules always take the slow path.
++    if re.search(r'\(\?[a-zA-Z-]*i', pattern):
++        return None, True
++    try:
++        parsed = _sre_parse.parse(pattern, flags)
++    except Exception:
++        return None, True
++
++    def walk(items):
++        first = set()
++        for op, av in items:
++            ofirst, onull = one(op, av)
++            if ofirst is None:
++                return None, True
++            first |= ofirst
++            if not onull:
++                return first, False
++        return first, True
++
++    def one(op, av):
++        if op is _sre_constants.LITERAL:
++            return {av}, False
++        if op is _sre_constants.IN:
++            if any(iop is _sre_constants.NEGATE for iop, _ in av):
++                return None, False
++            first = set()
++            for iop, iav in av:
++                if iop is _sre_constants.LITERAL:
++                    first.add(iav)
++                elif iop is _sre_constants.RANGE:
++                    if iav[1] - iav[0] > 64:
++                        return None, False
++                    first.update(range(iav[0], iav[1] + 1))
++                else:
++                    return None, False
++            return first, False
++        if op is _sre_constants.BRANCH:
++            first = set()
++            nullable = False
++            for branch in av[1]:
++                bfirst, bnull = walk(branch)
++                if bfirst is None:
++                    return None, True
++                first |= bfirst
++                nullable = nullable or bnull
++            return first, nullable
++        if op is _sre_constants.SUBPATTERN:
++            return walk(av[3])
++        if op in (_sre_constants.MAX_REPEAT, _sre_constants.MIN_REPEAT,
++                  getattr(_sre_constants, 'POSSESSIVE_REPEAT', None)):
++            cfirst, cnull = walk(av[2])
++            return cfirst, av[0] == 0 or cnull
++        if op is _sre_constants.AT or op is _sre_constants.ASSERT \
++                or op is _sre_constants.ASSERT_NOT:
++            return set(), True
++        if op is _sre_constants.NOT_LITERAL or op is _sre_constants.ANY:
++            return None, False
++        return None, True
++
++    first, nullable = walk(parsed)
++    return (first or None), nullable
++
+ 
+ class LexerMeta(type):
+     """
+@@ -709,8 +793,31 @@ class RegexLexer(Lexer, metaclass=RegexLexerMeta):
+         tokendefs = self._tokens
+         statestack = list(stack)
+         statetokens = tokendefs[statestack[-1]]
++        firstsets = {}
++        filtered = {}
+         while 1:
+-            for rexmatch, action, new_state in statetokens:
++            rules = statetokens
++            if pos < len(text):
++                char = text[pos]
++                key = (id(statetokens), char)
++                rules = filtered.get(key)
++                if rules is None:
++                    rules = []
++                    for rule in statetokens:
++                        rexmatch = rule[0]
++                        pattern = getattr(rexmatch, '__self__', None)
++                        if pattern is None:
++                            rules.append(rule)
++                            continue
++                        fs = firstsets.get(id(rexmatch))
++                        if fs is None:
++                            fs = firstsets[id(rexmatch)] = _regex_first_chars(
++                                pattern.pattern, pattern.flags)
++                        first, nullable = fs
++                        if first is None or nullable or ord(char) in first:
++                            rules.append(rule)
++                    filtered[key] = rules
++            for rexmatch, action, new_state in rules:
+                 m = rexmatch(text, pos)
+                 if m:
+                     if action is not None:

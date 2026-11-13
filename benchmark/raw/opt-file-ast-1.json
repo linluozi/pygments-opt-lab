@@ -1,0 +1,1 @@
+{"impl": "opt", "scale": "file-ast", "i": 1, "seconds": 0.07134294882416725, "bytes": 64260, "tokens": 16071, "files": ["ast.py"]}

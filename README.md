@@ -16,7 +16,7 @@ Base commit: `156d85fdd18d34427fe893527e71da91dcfb0eb5` (Pygments 2.21.0).
 | medium (4 files) | 618,429 | 0.8409 | 0.4541 | **1.85x** |
 | large (20 files) | 2,021,262 | 2.9823 | 1.7792 | **1.68x** |
 
-Per-file medians (20 real files): median **1.68x**, worst **1.43x**, best **2.16x**. Relative standard deviation is < 6% for every scale (raw samples are kept, so this is re-computable). No synthetic repetitions were used; input bytes are exactly the files on disk.
+Per-file medians (20 real files): median **1.68x**, worst **1.43x** (`difflib.py`), best **1.94x** (`_pydecimal.py`). Relative standard deviation is < 3.1% for every scale (raw samples are kept, so this is re-computable). No synthetic repetitions were used; input bytes are exactly the files on disk.
 
 ## Differential test and quality gates
 

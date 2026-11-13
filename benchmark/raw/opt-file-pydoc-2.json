@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-pydoc", "i": 2, "seconds": 0.11150089744478464, "bytes": 113090, "tokens": 29261, "files": ["pydoc.py"]}
+{"impl": "opt", "scale": "file-pydoc", "i": 2, "seconds": 0.10464423522353172, "bytes": 113090, "tokens": 29261, "files": ["pydoc.py"]}

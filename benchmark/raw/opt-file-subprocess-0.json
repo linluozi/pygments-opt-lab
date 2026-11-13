@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-subprocess", "i": 0, "seconds": 0.07318448089063168, "bytes": 88725, "tokens": 15530, "files": ["subprocess.py"]}
+{"impl": "opt", "scale": "file-subprocess", "i": 0, "seconds": 0.06792079284787178, "bytes": 88725, "tokens": 15530, "files": ["subprocess.py"]}

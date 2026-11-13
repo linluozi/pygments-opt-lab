@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-pickletools", "i": 1, "seconds": 0.057679930701851845, "bytes": 93861, "tokens": 13934, "files": ["pickletools.py"]}
+{"impl": "opt", "scale": "file-pickletools", "i": 1, "seconds": 0.05416735541075468, "bytes": 93861, "tokens": 13934, "files": ["pickletools.py"]}

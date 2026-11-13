@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-mailbox", "i": 2, "seconds": 0.08014248218387365, "bytes": 78911, "tokens": 19651, "files": ["mailbox.py"]}
+{"impl": "opt", "scale": "file-mailbox", "i": 2, "seconds": 0.07619051076471806, "bytes": 78911, "tokens": 19651, "files": ["mailbox.py"]}

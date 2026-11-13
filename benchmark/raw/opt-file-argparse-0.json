@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-argparse", "i": 0, "seconds": 0.08320640120655298, "bytes": 101750, "tokens": 20262, "files": ["argparse.py"]}
+{"impl": "opt", "scale": "file-argparse", "i": 0, "seconds": 0.07776817679405212, "bytes": 101750, "tokens": 20262, "files": ["argparse.py"]}

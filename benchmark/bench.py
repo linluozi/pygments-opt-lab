@@ -116,10 +116,10 @@ def summarize(samples):
     return {'median': med, 'p25': p25, 'p75': p75, 'runs': len(s), 'rsd': rsd}
 
 
-def aggregate(outdir, impl, scales, per_file, corpus):
+def aggregate(rawdir, outdir, impl, scales, per_file, corpus):
     bench = {}
     for label, paths in scales.items():
-        samples = [json.load(open(os.path.join(outdir, '%s-%s-%d.json' % (impl, label, i))))['seconds']
+        samples = [json.load(open(os.path.join(rawdir, '%s-%s-%d.json' % (impl, label, i))))['seconds']
                    for i in range(REPEATS)]
         d = summarize(samples)
         d['bytes'] = sum(os.path.getsize(p) for p in paths)
@@ -146,7 +146,8 @@ def aggregate(outdir, impl, scales, per_file, corpus):
         'scales': bench,
         'files': files,
     }
-    with open(os.path.join(outdir, impl + '.json'), 'w') as f:
+    name = 'baseline.json' if impl == 'base' else 'optimized.json'
+    with open(os.path.join(outdir, name), 'w') as f:
         json.dump(result, f, indent=1)
     return result
 
@@ -199,7 +200,7 @@ def main():
             per_file[slug(p)] = [json.load(open(os.path.join(
                 raw, '%s-file-%s-%d.json' % (impl, slug(p), i))))['seconds']
                 for i in range(REPEATS)]
-        results[impl] = aggregate(raw, impl, scales, per_file, corpus)
+        results[impl] = aggregate(raw, outdir, impl, scales, per_file, corpus)
 
     base = results['base']
     opt = results['opt']

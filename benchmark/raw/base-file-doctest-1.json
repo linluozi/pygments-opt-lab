@@ -1,1 +1,1 @@
-{"impl": "base", "scale": "file-doctest", "i": 1, "seconds": 0.1063823951408267, "bytes": 106479, "tokens": 15581, "files": ["doctest.py"]}
+{"impl": "base", "scale": "file-doctest", "i": 1, "seconds": 0.0978172104805708, "bytes": 106479, "tokens": 15581, "files": ["doctest.py"]}

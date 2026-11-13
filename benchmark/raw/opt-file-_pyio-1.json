@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-_pyio", "i": 1, "seconds": 0.0741830263286829, "bytes": 93593, "tokens": 17645, "files": ["_pyio.py"]}
+{"impl": "opt", "scale": "file-_pyio", "i": 1, "seconds": 0.07029304374009371, "bytes": 93593, "tokens": 17645, "files": ["_pyio.py"]}

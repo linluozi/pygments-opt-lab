@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-tarfile", "i": 4, "seconds": 0.098065878264606, "bytes": 113907, "tokens": 24838, "files": ["tarfile.py"]}
+{"impl": "opt", "scale": "file-tarfile", "i": 4, "seconds": 0.0934722414240241, "bytes": 113907, "tokens": 24838, "files": ["tarfile.py"]}

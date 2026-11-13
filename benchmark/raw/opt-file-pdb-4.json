@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-pdb", "i": 4, "seconds": 0.06286914739757776, "bytes": 69459, "tokens": 13792, "files": ["pdb.py"]}
+{"impl": "opt", "scale": "file-pdb", "i": 4, "seconds": 0.05912879481911659, "bytes": 69459, "tokens": 13792, "files": ["pdb.py"]}

@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-_pydecimal", "i": 4, "seconds": 0.1456562913954258, "bytes": 229220, "tokens": 37595, "files": ["_pydecimal.py"]}
+{"impl": "opt", "scale": "file-_pydecimal", "i": 4, "seconds": 0.1344893742352724, "bytes": 229220, "tokens": 37595, "files": ["_pydecimal.py"]}

@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-enum", "i": 3, "seconds": 0.07165384199470282, "bytes": 81636, "tokens": 17048, "files": ["enum.py"]}
+{"impl": "opt", "scale": "file-enum", "i": 3, "seconds": 0.06830602698028088, "bytes": 81636, "tokens": 17048, "files": ["enum.py"]}

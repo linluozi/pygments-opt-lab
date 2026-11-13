@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-ipaddress", "i": 3, "seconds": 0.057022735476493835, "bytes": 78294, "tokens": 12481, "files": ["ipaddress.py"]}
+{"impl": "opt", "scale": "file-ipaddress", "i": 3, "seconds": 0.05284797586500645, "bytes": 78294, "tokens": 12481, "files": ["ipaddress.py"]}

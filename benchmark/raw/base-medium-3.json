@@ -1,1 +1,1 @@
-{"impl": "base", "scale": "medium", "i": 3, "seconds": 0.8408608101308346, "bytes": 618429, "tokens": 109003, "files": ["_pydecimal.py", "turtle.py", "inspect.py", "typing.py"]}
+{"impl": "base", "scale": "medium", "i": 3, "seconds": 0.823863341473043, "bytes": 618429, "tokens": 109003, "files": ["_pydecimal.py", "turtle.py", "inspect.py", "typing.py"]}

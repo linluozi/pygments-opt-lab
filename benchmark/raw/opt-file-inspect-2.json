@@ -1,1 +1,1 @@
-{"impl": "opt", "scale": "file-inspect", "i": 2, "seconds": 0.10081317462027073, "bytes": 125420, "tokens": 24326, "files": ["inspect.py"]}
+{"impl": "opt", "scale": "file-inspect", "i": 2, "seconds": 0.0956591721624136, "bytes": 125420, "tokens": 24326, "files": ["inspect.py"]}

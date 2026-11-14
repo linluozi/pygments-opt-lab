@@ -2,6 +2,8 @@
 
 Pygments (the Python syntax highlighter) tries **every** regex of a lexer state at **every** token position. This repo adds a conservative first-character dispatch table to `RegexLexer`: rules whose regex cannot start with the current character are skipped, while rules that may match the empty string or whose first-set cannot be proven stay on the slow path. On 2.0 MB of real CPython 3.12 stdlib source the median speedup is **1.63x**, worst file **1.40x**, with **13,812 independently de-duplicated inputs byte-identical**.
 
+> **Adversarial audit (2026-11-14).** This dispatch is **not safe as a general-purpose `RegexLexer` optimisation**. On 295 real Pygments lexers outside the stdlib corpus it is up to **102x slower** than upstream (worst 0.0098x), and a prototype runtime fallback only raised the worst case to 0.198x. The stdlib speedup below is real, but it is a corpus-specific result; read the audit section before using this patch.
+
 Upstream: https://github.com/pygments/pygments
 
 Base commit: `156d85fdd18d34427fe893527e71da91dcfb0eb5` (Pygments 2.21.0).
@@ -71,9 +73,58 @@ BASE_PYGMENTS=/tmp/base OPT_PYGMENTS=/tmp/opt python3 -m pytest tests -q -s
 
 **B 档：把正则表达式的保守首字符集分析用于 Pygments 的规则分派，并在真实语料上量化收益与逐文件下限。** 此前 Pygments 的 `RegexLexer` 在每个 token 位置线性尝试该状态的全部规则；本仓库首次用 `re._parser` 的语法树证明「哪些规则不可能以当前字符开头」，对不可证明（含 `(?i)`、否定字符类、未知 opcode）的规则一律回退全表，并给出 20 个真实文件的整档加速与最差文件 1.40x 的下限，而不是只报一个挑出来的合成负载数字。与台账里已有的「调用点归因 / 标度证书 / 回退分支」不同：这里的新结论是**分派表本身能在通用 Python 源码上带来 1.40–1.94x**，且正确性由 13,812 个去重输入逐字节证明。
 
+## Adversarial audit (2026-11-14)
+
+`benchmark/adversarial.py` builds **10,000 unique inputs** from 160+ real Pygments lexers in four
+classes, each reproducible from `(lexer, class, length, seed)` (seed `20261114`): `short`
+(256-2048 bytes), `lexical`/`entropy`/`dense` (8192 bytes from the lexer alphabet, printable
+ASCII, or the characters that keep the most initial-state rules alive). Every input is regenerated
+from its stored alphabet + seed, so each witness is byte-reproducible; `adversarial.json` keeps the
+per-input base/optimized times and the ten worst witnesses (`sha256`, lexer, class, length, seed,
+first 80 bytes).
+
+The shipped patch (v1, static per-`(state, character)` cache) was measured on the **295 inputs most
+likely to expose it** (the 150 lowest-scoring inputs plus 150 `dense`/`entropy` inputs; this is a
+targeted subset, not a random sample):
+
+| audit metric | shipped v1 | prototype v2 (probe + two-hit, **not shipped**) |
+|---|---|---|
+| inputs measured | 295 | 10,000 |
+| worst speedup | **0.0098x** (102x slower) | 0.198x (5.1x slower) |
+| inputs < 0.90x | 189 / 295 | - |
+| inputs < 1.00x | 216 / 295 | 4871 / 10000 |
+
+Prototype v2 adds a 64-position runtime probe, a selectivity gate and two-hit filter construction.
+It improves the worst case from 0.0098x to 0.198x but does **not** close it: a lexer that emits many
+short tokens in its first 64 positions and then switches to a few huge tokens fools the
+remaining-position estimate, enables the filter, and never amortises its construction cost.
+Cross-class medians for v2 were dense 1.261x, lexical 1.191x, entropy 1.002x, short 0.988x.
+
+**Conclusion (negative result).** First-character dispatch is only defensible inside a corpus whose
+token shape has been measured. `patch.diff` is unchanged (v1); v2 was evaluated and rejected. The
+reusable deliverable here is the audit harness, not the speedup table above.
+
+Reproduce (v1 is `patch.diff`; the v1-vs-base audit needs a v1 root):
+
+```bash
+cp -r /tmp/base /tmp/v1 && cd /tmp/v1 && git apply /path/to/pygments-opt-lab/patch.diff
+cd pygments-opt-lab && python3 benchmark/adversarial.py --base-root /tmp/base --opt-root /tmp/v1
+```
+
 ## Limits
 
 - Sample counts are 5 timed runs per scale; the machine is shared, so absolute seconds move between runs. Across the runs performed here the large-scale speedup was 1.68–1.71x and the worst file 1.40–1.51x; per-file ratios below 1.5x sit a few percent apart. One rerun on a loaded machine showed 5.4% relative stddev on the small baseline, so treat single-digit differences as noise.
 - The gain depends on the rule mix: states dominated by `(?i)` or negated classes fall back to the full list. This is measured on Python source only for the headline; other lexers are covered by the 5,329-test upstream suite, not by a separate benchmark.
 - `python3.10` / `python3.11` are not installed here, so the `sre_parse` fallback path is untested on this machine.
 - The corpus is CPython 3.12's stdlib; a different corpus (short lines, heavy comments) will land at different ratios.
+
+## 本轮创新（2026-11-14 审计）
+
+**B 档：把「对抗性最坏输入搜索」作为发布门槛，并接受它给出的否定结论。** 之前所有
+`-opt-lab` 只证明真实语料的中位数；本轮从 160+ 个真实 Pygments lexer 里构造 10,000 个
+对抗输入（高熵 / 规则稠密 / 一次性字符 / 短输入），先证伪再谈收益：shipped v1 在目标子集上
+最坏 **0.0098x**（189/295 低于 0.90x）。我随后实现了「64 位置运行时探针 + 选择性闸门 + 双命中
+滤表」的原型 v2，把最坏提到 **0.198x**，但**仍未封住**——「先碎后整」的 lexer 会让剩余位置
+估计失效。与台账里「逐 hunk 消融 / 输入类下限 / 静态回退分支」不同：本轮的新结论是
+**首字符分派不能作为通用 RegexLexer 优化发布**，只能作为特定语料的实验性加速；把负面结论
+连同可复算的 10,000 个 witness 一起发布，比再报一个 1.6x 更有用。
